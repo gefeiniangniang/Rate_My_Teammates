@@ -1,0 +1,118 @@
+<!--  app/views/movies/show.html.erb -->
+<!-- Reference for the chart: https://github.com/styd/apexcharts.rb#radar-chart-1 -->
+<br><br>
+<h2 style="font-family:Verdana; font-weight:600;" >
+    <% if !current_user.nil? and current_user.uni == @user.uni %>
+        <%= best_in_place @user, :name, :as => :input, :place_holder => "Tell us who you are!" , :ok_button => 'Save', :cancel_button => 'Cancel', :activator => "#edit_#{@user.uni}" %>
+        <button type="button" class="btn btn-link" id="edit_<%= @user.uni %>">Edit</button>
+    <% else %>
+        <%= @user.name %>
+    <% end %>
+</h2>
+<br>
+
+<ul id="details" style="font-family:Verdana;font-size:105%;">
+  <li>
+    <strong>UNI:</strong>
+    <%= @user.uni %>
+  </li>
+  <li>
+  <strong>Program:</strong>
+    <% if !current_user.nil? and current_user.uni == @user.uni %>
+        <%= best_in_place @user, :description, :as => :input, :place_holder => "Tell us what you study!" , :ok_button => 'Save', :cancel_button => 'Cancel', :activator => "#edit2_#{@user.uni}" %>
+        <button type="button" class="btn btn-link" id="edit2_<%= @user.uni %>">Edit</button>
+    <% else %>
+        <%= @user.description %>
+    <% end %>
+    </li>
+  <li>
+  <strong>Summary:</strong>
+    <% if !current_user.nil? and current_user.uni == @user.uni %>
+        <%= best_in_place @user, :summary, :type => :textarea, :place_holder => "Write something we need to know about you!", :ok_button => 'Save', :cancel_button => 'Cancel', :activator => "#edit3_#{@user.uni}" %>
+        <button type="button" class="btn btn-link" id="edit3_<%= @user.uni %>">Edit</button>
+    <% else %>
+        <% p(@user) %>
+        <%= @user.summary %>
+    <% end %>
+    </li>
+</ul>
+<div class="row" style="font-family:Verdana;font-size:105%;">
+  <div class="column">
+    <strong>General Skills:</strong>
+     <% radar_series = [
+      {
+        name: "Self Evaluation",
+        data: { "Communication"=>@user.self_communication, "Time Management"=>@user.self_time_management, "Reliability"=>@user.self_reliability, "Collaboration"=>@user.self_collaboration, "Critical Thinking"=>@user.self_critical_thinking}
+      },
+      {
+        name: "Peer Evaluation",
+        data: { "Communication"=>@communication, "Time Management"=>@time_management, "Reliability"=>@reliability, "Collaboration"=>@collaboration , "Critical Thinking"=>@critical_thinking}
+      }
+    ] %>
+    <%= radar_chart(
+      radar_series,
+      {markers: {size: 4}, theme: 'palette1'}
+    ) %>
+
+
+
+    <% if !current_user.nil? and current_user.uni == @user.uni %>
+      <strong>Self Evaluation Details (1 poor ~ 5 great):</strong>
+      <li>Communication: <%= best_in_place @user, :self_communication, :as => :select, :collection =>["1","2","3","4","5"],:place_holder => "Please rate yourself", :ok_button => 'Save', :cancel_button => 'Cancel', :activator => "#edit4_#{@user.uni}" %><button type="button" class="btn btn-link" id="edit4_<%= @user.uni %>">Edit</button></li>
+      <li>Time Management: <%= best_in_place @user, :self_time_management, :as => :select, :collection =>["1","2","3","4","5"],:place_holder => "Please rate yourself", :ok_button => 'Save', :cancel_button => 'Cancel', :activator => "#edit5_#{@user.uni}" %><button type="button" class="btn btn-link" id="edit5_<%= @user.uni %>">Edit</button></li>
+      <li>Reliability: <%= best_in_place @user, :self_reliability, :as => :select, :collection =>["1","2","3","4","5"],:place_holder => "Please rate yourself",  :ok_button => 'Save', :cancel_button => 'Cancel', :activator => "#edit6_#{@user.uni}" %><button type="button" class="btn btn-link" id="edit6_<%= @user.uni %>">Edit</button></li>
+      <li>Collaboration: <%= best_in_place @user, :self_collaboration, :as => :select, :collection =>["1","2","3","4","5"],:place_holder => "Please rate yourself",  :ok_button => 'Save', :cancel_button => 'Cancel', :activator => "#edit7_#{@user.uni}" %><button type="button" class="btn btn-link" id="edit7_<%= @user.uni %>">Edit</button></li>
+      <li>Critical Thinking: <%= best_in_place @user, :self_critical_thinking, :as => :select, :collection =>["1","2","3","4","5"],:place_holder => "Please rate yourself",  :ok_button => 'Save', :cancel_button => 'Cancel', :activator => "#edit8_#{@user.uni}" %><button type="button" class="btn btn-link" id="edit8_<%= @user.uni %>">Edit</button></li>
+
+    <% end %>
+
+
+
+
+  </div>
+
+
+  <div class="column">
+    <strong>Other Skills:</strong>
+    <% @user.skills.each do |skill| %>
+      <li><strong><%= skill.name %></strong> &nbsp;&nbsp; <%= skill.endorsements.count %>
+      <%= (skill.endorsements.count) < 2 ? 'Endorsement' : 'Endorsements'%> &nbsp;&nbsp;
+      <button type="button" class="btn btn-default btn-sm">
+      <% if !current_user.nil? %>
+          <%= button_to 'Endorse', endorsements_path, params: {user_id: @user, user_uni: @user.uni, endorser_id: current_user.id, skill_id: skill.id}, method: :post%>
+      <% end %>
+      </button></li>
+    <% end %>
+  </div>
+</div>
+<br>
+<h5 style="font-family:Verdana;font-weight:600;">Comments From Previous Teammates</h5>
+
+<% @user.reviews.each do |review| %>
+  <br>
+  <p>
+    <strong>Reviewer:</strong>
+    <%= review.reviewer_uni %>
+    &nbsp;&nbsp;
+    <strong>Class:</strong>
+    <%= review.course_taken_together %>
+  </p>
+
+  <p style="border:2px; border-radius: 25px;border-style:solid; border-color:#000000; padding: 1em;">
+    <%= review.content %>
+  </p>
+<% end %>
+<br>
+<div class="row" >
+  <%= link_to 'Back To User List', users_path, :class => 'btn btn-light btn-outline-dark' %>
+  &nbsp;&nbsp;
+  <% if !current_user.nil? and current_user.uni != @user.uni %>
+      <%= link_to "Add A Review", new_user_review_path(user_id: @user, user_uni: @user.uni), :class => 'btn btn-dark btn-outline-light' %>
+      &nbsp;&nbsp;
+  <% end %>
+  <% if !current_user.nil? %>
+      <%= link_to "Add A Skill", new_user_skill_path(user_id: @user, user_uni: @user.uni), :class => 'btn btn-dark btn-outline-light' %>
+  <% end %>
+</div>
+<br>
+<br>

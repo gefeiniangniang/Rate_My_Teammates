@@ -1,0 +1,10 @@
+<%= form_for [@user, @skill] do |form| %>
+  <p>
+    <%= form.label :skill_name, "Skill Name"  %><br>
+    <%= form.text_field :name %>
+  </p>
+
+  <%= form.hidden_field :user_uni, :value => @user.uni %><br><br>
+  <%= form.submit 'Add Skill', :class => 'btn btn-dark btn-outline-light' %>
+  <%= link_to "Back", user_path(@user), :class => 'btn btn-light btn-outline-dark' %>
+<% end %>

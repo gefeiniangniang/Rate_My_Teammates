@@ -1,0 +1,55 @@
+<!--  This file is app/views/movies/index.html.erb -->
+<br>
+<br>
+<center>
+<img src="https://1ns4r23y1yed2lbkso2b4lwq-wpengine.netdna-ssl.com/wp-content/uploads/2019/05/7-traits-unstoppable-teams-infographic-thumbnail-1080x675.jpg" alt="image" style="width:400px;height:250px;">
+</center>
+<br>
+<center>
+<h2 style="font-family:Verdana; font-weight:600;" >Rate My Teammates</h2>
+    
+<br>
+    
+<% if current_user.nil? %> 
+    Please sign in to activate search / review adding / skill adding features.
+<% else %>
+    <%= form_tag("/users/search", method: :get) do %>
+        <%= text_field_tag :uni, params[:uni], options = {style:"width:700px", placeholder:"Search by UNI"}%>
+        <%= submit_tag ("Search")%>
+    <% end %>
+<% end %>
+</center>
+
+<br>
+<br>
+<table class="table table-striped col-md-12" id="users">
+
+  <h4> All Users </h4>
+  <br>
+  <thead>
+    <tr>
+      <th style="width:25%;">UNI</th>
+      <th style="width:25%;">Name</th>
+      <th style="width:25%;">Program</th>
+      <th style="width:25%;">Reviews</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td>
+          <%= user.uni %>
+        </td>
+        <td>
+          <%= user.name %>
+        </td>
+        <td>
+          <%= user.description %>
+        </td>
+        <td>
+          <%= link_to "More about #{user.name}", user_path(user) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

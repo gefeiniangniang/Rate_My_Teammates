@@ -1,0 +1,80 @@
+<style>
+.login { 
+  margin: 30px auto;
+  padding: 20px 50px 20px;
+  width: 650px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 200px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+body {
+  background: #DCDDDF;
+}
+
+</style>
+
+
+<center>
+
+<div class="login">
+<h2 style="font-family:Verdana; font-weight:600;" >New Review For <%= @user.name %></h2>
+<br>
+
+<%= form_for [@user, @review] do |form|%>
+
+    <p>
+      <%= form.label :course_taken_together, "Course Taken Together"%><br>
+      <%= form.text_field :course_taken_together,size: "30x1" %>
+    </p>
+    <p>
+      <%= form.label :time_management, "Time Management (1 poor ~ 5 great)" %><br>&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :time_management, '1', :id =>"time_management1"%> 1&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :time_management, '2', :id =>"time_management2"%> 2&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :time_management, '3', :id =>"time_management3"%> 3&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :time_management, '4', :id =>"time_management4"%> 4&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :time_management, '5', :id =>"time_management5"%> 5&nbsp;&nbsp;&nbsp;&nbsp;
+    </p>
+    <p>
+      <%= form.label :communication, "Communication (1 poor ~ 5 great)" %><br>&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :communication, '1', :id =>"communication1"%> 1&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :communication, '2', :id =>"communication2"%> 2&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :communication, '3', :id =>"communication3"%> 3&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :communication, '4', :id =>"communication4"%> 4&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :communication, '5', :id =>"communication5"%> 5&nbsp;&nbsp;&nbsp;&nbsp;
+    </p>
+    <p>
+      <%= form.label :critical_thinking, "Critical Thinking (1 poor ~ 5 great)" %><br>&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :critical_thinking, '1', :id =>"critical_thinking1"%> 1&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :critical_thinking, '2', :id =>"critical_thinking2"%> 2&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :critical_thinking, '3', :id =>"critical_thinking3"%> 3&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :critical_thinking, '4', :id =>"critical_thinking4"%> 4&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :critical_thinking, '5', :id =>"critical_thinking5"%> 5&nbsp;&nbsp;&nbsp;&nbsp;
+    </p>
+    <p>
+      <%= form.label :collaboration, "Collaboration (1 poor ~ 5 great)" %><br>&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :collaboration, '1', :id =>"collaboration1"%> 1&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :collaboration, '2', :id =>"collaboration2"%> 2&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :collaboration, '3', :id =>"collaboration3"%> 3&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :collaboration, '4', :id =>"collaboration4"%> 4&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :collaboration, '5', :id =>"collaboration5"%> 5&nbsp;&nbsp;&nbsp;&nbsp;
+    </p>
+    <p>
+      <%= form.label :reliability, "Reliability (1 poor ~ 5 great)" %><br>&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :reliability, '1', :id =>"reliability1"%> 1&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :reliability, '2', :id =>"reliability2"%> 2&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :reliability, '3', :id =>"reliability3"%> 3&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :reliability, '4', :id =>"reliability4"%> 4&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= form.radio_button :reliability, '5', :id =>"reliability5"%> 5&nbsp;&nbsp;&nbsp;&nbsp;
+    </p>
+    <p>
+      <%= form.label :content, "Review Content (Examples are helpful!)" %><br>
+      <%= form.text_area :content,size: "50x5" %>
+    </p>
+
+    <%= form.hidden_field :user_uni, :value => @user.uni %>
+    <%= form.submit "Submit Review", :class => 'btn btn-dark btn-outline-light'%>
+    <%= link_to "Back", user_path(@user), :class => 'btn btn-light btn-outline-dark' %>
+<% end %>
+</div>
+</center>

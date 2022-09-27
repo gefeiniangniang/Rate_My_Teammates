@@ -1,0 +1,38 @@
+<p id=”alert”><%= alert %></p>
+<style>
+.login { 
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -70%);
+  margin: 30px auto;
+  padding: 40px 50px 40px;
+  width: 450px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 200px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+body {
+  background: #DCDDDF;
+}
+.button{
+  background: #cde5ef;
+  width: 200px;
+}
+</style>
+<body>
+<center>
+  <div class="login">
+    <h2 style="font-family:Verdana; font-weight:600;" >Login</h2><br><br>
+
+  Our projoect aims to assist Columbia Students with their work. We currently only accepts columbia UNIs.<br><br><br>
+
+
+<%= form_tag verify_path do |form| %>
+    <%= text_field_tag :uni, params[:uni], options = {style:"width:200px"}%><br><br>
+    <%= submit_tag ("Sign In"), :class => 'button'%>
+<% end %>
+  </div>
+</center>
+</body>

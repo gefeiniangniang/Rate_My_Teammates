@@ -1,0 +1,38 @@
+<!--  This file is app/views/movies/index.html.erb -->
+<h2>All Users</h2>
+
+<!-- add search bar here -->
+
+<h4> Search </h4>
+
+<table class="table table-striped col-md-12" id="users">
+  <thead>
+    <tr>
+      <th style="width:25%;">UNI</th>
+      <th style="width:25%;">Name</th>
+      <th style="width:25%;">Program</th>
+      <th style="width:25%;">Reviews</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td>
+          <%= user.uni %>
+        </td>
+        <td>
+          <%= user.name %>
+        </td>
+        <td>
+          <%= user.description %>
+        </td>
+        <td>
+          <%= link_to "More about #{user.name}", user_path(user.uni) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+
